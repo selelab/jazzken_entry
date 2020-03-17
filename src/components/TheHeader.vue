@@ -1,7 +1,9 @@
 <template>
   <v-app-bar app color="primary" dark>
     <div class="d-flex align-center">
-      <v-btn text to="#">ジャズ研バンドエントリーシステム</v-btn>
+      <v-btn text href="http://abehiroshi.la.coocan.jp/" target="_brank"
+        >ジャズ研バンドエントリーシステム</v-btn
+      >
     </div>
 
     <v-spacer></v-spacer>
