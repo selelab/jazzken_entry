@@ -62,7 +62,6 @@ import {
   ref,
   computed,
   watch,
-  SetupContext,
 } from '@vue/composition-api'
 
 type memberType = {
