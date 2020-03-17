@@ -1,74 +1,57 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <v-col cols="5">
-        <v-form ref="form" v-model="state.valid">
-          <v-row justify="center">
-            <v-col cols="7">
-              <h1>エントリーフォーム</h1>
-            </v-col>
-          </v-row>
-          <v-card-actions>
-            <v-row justify="center">
-              <v-col>
-                <v-text-field
-                  v-model="band.name"
-                  label="バンド名"
-                  :rules="state.bandNameRules"
-                  required
-                />
-                <v-select
-                  v-model="band.memberNum"
-                  label="メンバー数"
-                  :items="membersSelection"
-                />
-              </v-col>
-            </v-row>
-          </v-card-actions>
-
-          <v-card-actions>
-            <v-row justify="center">
-              <v-col>
-                <h2>メンバー情報</h2>
-                <v-card-actions
-                  v-for="member in band.memberList"
-                  :key="member.id"
-                >
-                  <v-text-field
-                    v-model="member.name"
-                    label="メンバーの名前"
-                    :rules="state.memberNameRules"
-                    required
-                  />
-                  <v-spacer />
-                  <v-select
-                    v-model="member.instrument"
-                    label="楽器"
-                    :items="instrumentList"
-                    :rules="state.instrumentRules"
-                    required
-                  />
-                </v-card-actions>
-              </v-col>
-            </v-row>
-          </v-card-actions>
-
-          <v-card-actions>
-            <v-row>
-              <v-col>
-                <v-btn
-                  :disabled="state.value"
-                  block
-                  color="primary"
-                  @click="submit"
-                  >確認画面へ</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-card-actions>
-        </v-form>
-      </v-col>
+      <v-card-title>エントリーフォーム</v-card-title>
     </v-row>
+    <v-form ref="form" v-model="state.valid">
+      <v-row justify="center">
+        <v-col cols="4">
+          <v-text-field
+            v-model="band.name"
+            label="バンド名"
+            :rules="state.bandNameRules"
+            required
+          />
+          <v-select
+            v-model="band.memberNum"
+            label="メンバー数"
+            :items="membersSelection"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row justify="center">
+        <v-col cols="4">
+          <v-card-subtitle>メンバー情報</v-card-subtitle>
+          <v-row
+            justify="center"
+            v-for="member in band.memberList"
+            :key="member.id"
+          >
+            <v-text-field
+              v-model="member.name"
+              label="メンバーの名前"
+              :rules="state.memberNameRules"
+              required
+            />
+            <v-spacer />
+            <v-select
+              v-model="member.instrument"
+              label="楽器"
+              :items="instrumentList"
+              :rules="state.instrumentRules"
+              required
+            />
+          </v-row>
+        </v-col>
+      </v-row>
+
+      <v-row justify="center">
+        <v-col cols="2">
+          <v-btn block color="primary" @click="submit">確認画面へ</v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
   </v-container>
 </template>
 
@@ -103,7 +86,7 @@ const member: memberType = {
 const membersLimit = 20
 
 export default defineComponent({
-  setup(_, context: SetupContext) {
+  setup(_, context: any) {
     const state = reactive({
       valid: false,
       bandNameRules: [(v: string) => !!v || 'バンド名を入力してください'],
@@ -163,6 +146,8 @@ export default defineComponent({
           name: 'EntryConfirm',
           params,
         })
+      } else {
+        context.refs.form.validate()
       }
     }
 
