@@ -8,7 +8,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn href="http://abehiroshi.la.coocan.jp/" target="_blank" text>
+    <v-btn to="./list" text>
       <span class="mr-2">バンド一覧</span>
       <v-icon>mdi-open-in-new</v-icon>
     </v-btn>
