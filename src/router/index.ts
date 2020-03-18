@@ -5,6 +5,8 @@ import EntryForm from '@/pages/EntryForm.vue'
 import EntryConfirm from '@/pages/EntryConfirm.vue'
 import EntryComplete from '@/pages/EntryComplete.vue'
 
+import BandList from '@/pages/BandList.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +24,11 @@ const routes = [
     path: '/complete',
     name: 'EntryComplete',
     component: EntryComplete,
+  },
+  {
+    path: '/list',
+    name: 'BandList',
+    component: BandList,
   },
 ]
 
