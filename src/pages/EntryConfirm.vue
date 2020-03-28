@@ -45,9 +45,7 @@
 
     <v-row justify="center">
       <v-col class="ms-10" cols="1">
-        <v-btn class="my-10" to="/complete" color="primary" @click="submit"
-          >エントリー</v-btn
-        >
+        <v-btn class="my-10" color="primary" @click="submit">エントリー</v-btn>
       </v-col>
       <v-col class="ms-10" cols="1">
         <v-btn to="/" class="my-10" color="cancel" @click="returnToModify"
@@ -60,13 +58,15 @@
 
 <script lang="ts">
 import { defineComponent, SetupContext } from '@vue/composition-api'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
 
 export default defineComponent({
   setup(_, context: SetupContext) {
     const band = context.root.$route.params.band
 
     const submit = () => {
-      context.root.$router.push({ name: 'EntryComplete' })
+      // context.root.$router.push({ name: 'EntryComplete' })
     }
 
     const returnToModify = () => {
