@@ -1,28 +1,32 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row justify="center">
-      <v-col v-for="band in bands" :key="band.name">
-        <v-row>
-          <v-card-actions>
-            <v-card-titel>{{ band.name }}</v-card-titel>
-            <v-divider />
-            <v-list>
-              <v-list-item v-for="member in band.memberList" :key="member.id">
-                <v-list-item-content>{{ member.name }}</v-list-item-content>
-                <v-list-item-content>{{
-                  member.instrument
-                }}</v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card-actions>
-        </v-row>
-      </v-col>
+      <v-card flat width="500">
+        <v-list>
+          <v-list-group v-for="band in bands" :key="band.name">
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ band.name }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="member in band.memberList" :key="member.id">
+              <v-list-item-content>
+                <v-card-text
+                  >{{ member.instrument }} {{ member.name }}</v-card-text
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+        </v-list>
+      </v-card>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 
 export default defineComponent({
   setup() {
@@ -67,8 +71,11 @@ export default defineComponent({
       },
     ]
 
+    const isMemberListOpen = ref(new Array(bands.length).fill(false))
+
     return {
       bands,
+      isMemberListOpen,
     }
   },
 })
