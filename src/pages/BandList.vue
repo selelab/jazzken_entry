@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
+      <v-card-title>エントリー済バンド一覧</v-card-title>
+    </v-row>
+    <v-row justify="center">
       <v-card flat width="500">
         <v-list>
           <v-list-group v-for="band in bands" :key="band.name">
@@ -26,56 +29,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref, watchEffect } from '@vue/composition-api'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
 
 export default defineComponent({
   setup() {
-    const bands = [
-      {
-        name: 'じゃがたら',
-        memberNum: 1,
-        memberList: [
-          {
-            id: 0,
-            name: '江戸アケミ',
-            instrument: 'Vo',
-          },
-        ],
-      },
-      {
-        name: '人間椅子',
-        memberNum: 2,
-        memberList: [
-          {
-            id: 0,
-            name: '鈴木研一',
-            instrument: 'Ba',
-          },
-          {
-            id: 1,
-            name: '和嶋慎治',
-            instrument: 'Gt',
-          },
-        ],
-      },
-      {
-        name: 'THE STALIN',
-        memberNum: 1,
-        memberList: [
-          {
-            id: 0,
-            name: '遠藤ミチロウ',
-            instrument: 'Vo',
-          },
-        ],
-      },
-    ]
+    const bands: any = ref(null)
 
-    const isMemberListOpen = ref(new Array(bands.length).fill(false))
+    watchEffect(async () => {
+      const db = firebase.firestore()
+      const bandCol = db.collection('bands')
+      const res = await bandCol.get()
+      bands.value = res.docs.map(doc => doc.data())
+    })
 
     return {
       bands,
-      isMemberListOpen,
     }
   },
 })
