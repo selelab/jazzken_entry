@@ -63,10 +63,14 @@ import 'firebase/firestore'
 
 export default defineComponent({
   setup(_, context: SetupContext) {
-    const band = context.root.$route.params.band
+    const band: any = context.root.$route.params.band
 
     const submit = () => {
-      // context.root.$router.push({ name: 'EntryComplete' })
+      const db = firebase.firestore()
+      const bandCol = db.collection('bands')
+      bandCol.add(band)
+      // console.log(band)
+      context.root.$router.push({ name: 'EntryComplete' })
     }
 
     const returnToModify = () => {
