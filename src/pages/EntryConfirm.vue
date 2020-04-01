@@ -5,7 +5,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col lg="4">
         <v-card-text>バンド名</v-card-text>
         <v-row justify="center">
           <v-card-text style="text-align: center">{{ band.name }}</v-card-text>
@@ -21,7 +21,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col lg="4">
         <v-card-subtitle>メンバー情報</v-card-subtitle>
 
         <v-simple-table>
@@ -44,10 +44,10 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col class="ms-10" cols="1">
+      <v-col class="ms-10" lg="1">
         <v-btn class="my-10" color="primary" @click="submit">エントリー</v-btn>
       </v-col>
-      <v-col class="ms-10" cols="1">
+      <v-col class="ms-10" lg="1">
         <v-btn to="/" class="my-10" color="cancel" @click="returnToModify"
           >修正する</v-btn
         >
