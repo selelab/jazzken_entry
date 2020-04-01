@@ -1,17 +1,17 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <div class="d-flex align-center">
+    <v-card-actions style="padding: 0">
       <v-btn text to="/">ジャズ研バンドエントリーシステム</v-btn>
-    </div>
+    </v-card-actions>
 
     <v-spacer></v-spacer>
 
     <v-btn v-if="path !== '/list'" to="./list" text>
-      <span class="mr-2">バンド一覧</span>
+      <span>バンド一覧</span>
       <v-icon>mdi-open-in-new</v-icon>
     </v-btn>
     <v-btn v-else to="/" text>
-      <span class="mr-2">バンドエントリー</span>
+      <span>エントリー</span>
       <v-icon>mdi-open-in-new</v-icon>
     </v-btn>
   </v-app-bar>
@@ -28,6 +28,7 @@ export default defineComponent({
       () => context.root.$route.path,
       newPath => {
         path.value = newPath
+        // console.log(path)
       }
     )
 
