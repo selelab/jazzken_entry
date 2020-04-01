@@ -4,7 +4,7 @@
       <v-card-title>エントリー済バンド一覧</v-card-title>
     </v-row>
     <v-row justify="center">
-      <v-card flat width="500">
+      <v-card flat :width="listWidth">
         <v-list>
           <v-list-group v-for="band in bands" :key="band.name">
             <template v-slot:activator>
@@ -29,13 +29,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from '@vue/composition-api'
+import {
+  defineComponent,
+  ref,
+  watchEffect,
+  computed,
+} from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
 export default defineComponent({
   setup() {
     const bands: any = ref(null)
+
+    const listWidth = computed(() => {
+      const width: number = window.screen.width
+
+      if (width < 600) {
+        return '60%'
+      }
+      return '30%'
+    })
 
     watchEffect(async () => {
       const db = firebase.firestore()
@@ -46,6 +60,7 @@ export default defineComponent({
 
     return {
       bands,
+      listWidth,
     }
   },
 })
