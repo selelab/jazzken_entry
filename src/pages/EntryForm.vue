@@ -5,7 +5,7 @@
     </v-row>
     <v-form ref="form" v-model="state.valid">
       <v-row justify="center">
-        <v-col cols="4">
+        <v-col cols="11" lg="4">
           <v-text-field
             v-model="band.name"
             label="バンド名"
@@ -21,33 +21,36 @@
       </v-row>
 
       <v-row justify="center">
-        <v-col cols="4">
-          <v-card-subtitle>メンバー情報</v-card-subtitle>
+        <v-col cols="11" lg="4">
+          <v-card-subtitle style="padding: 0">メンバー情報</v-card-subtitle>
           <v-row
             justify="center"
             v-for="member in band.memberList"
             :key="member.id"
           >
             <v-text-field
+              class="mr-2 ml-2"
               v-model="member.name"
               label="メンバーの名前"
               :rules="state.memberNameRules"
               required
+              style="width: 25%"
             />
-            <v-spacer />
             <v-select
+              class="mr-2 ml-2"
               v-model="member.instrument"
               label="楽器"
               :items="instrumentList"
               :rules="state.instrumentRules"
               required
+              style="width: 25%"
             />
           </v-row>
         </v-col>
       </v-row>
 
       <v-row justify="center">
-        <v-col cols="2">
+        <v-col cols="8" lg="2">
           <v-btn block color="primary" @click="submit">確認画面へ</v-btn>
         </v-col>
       </v-row>
