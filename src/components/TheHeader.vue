@@ -22,13 +22,12 @@ import { defineComponent, SetupContext, ref, watch } from '@vue/composition-api'
 
 export default defineComponent({
   setup(_, context: SetupContext) {
-    const path: any = ref(null)
+    const path = ref<null | string>(null)
 
     watch(
       () => context.root.$route.path,
       newPath => {
         path.value = newPath
-        // console.log(path)
       }
     )
 
