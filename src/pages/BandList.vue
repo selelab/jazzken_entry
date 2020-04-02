@@ -14,10 +14,17 @@
                 </v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="member in band.memberList" :key="member.id">
+            <v-card-subtitle>備考: </v-card-subtitle>
+            <v-list-item>
               <v-list-item-content>
-                <v-card-text
-                  >{{ member.instrument }} {{ member.name }}</v-card-text
+                <v-card-text>{{ band.notes }} </v-card-text>
+              </v-list-item-content>
+            </v-list-item>
+            <v-card-subtitle>メンバー: </v-card-subtitle>
+            <v-list-item>
+              <v-list-item-content>
+                <v-card-text v-for="member in band.memberList" :key="member.id"
+                  >{{ member.name }}({{ member.instrument }})</v-card-text
                 >
               </v-list-item-content>
             </v-list-item>
@@ -47,6 +54,7 @@ interface MemberType {
 interface BandType {
   name: string
   memberNum: number
+  notes: string
   memberList: MemberType[]
 }
 
@@ -58,7 +66,7 @@ export default defineComponent({
       const width: number = window.screen.width
 
       if (width < 600) {
-        return '60%'
+        return '70%'
       }
       return '30%'
     })

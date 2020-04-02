@@ -17,6 +17,7 @@
             label="メンバー数"
             :items="membersSelection"
           />
+          <v-textarea v-model="band.notes" label="備考" />
         </v-col>
       </v-row>
 
@@ -77,6 +78,7 @@ interface MemberType {
 interface BandType {
   name: string
   memberNum: number
+  notes: string
   memberList: MemberType[]
 }
 
@@ -107,6 +109,7 @@ export default defineComponent({
     const band = reactive<BandType>({
       name: '',
       memberNum: 1,
+      notes: '',
       memberList: [Object.assign({}, member)],
     })
 

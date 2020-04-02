@@ -17,6 +17,11 @@
             band.memberNum
           }}</v-card-text>
         </v-row>
+
+        <v-card-text>備考</v-card-text>
+        <v-row justify="center">
+          <v-card-text style="text-align: center">{{ band.notes }}</v-card-text>
+        </v-row>
       </v-col>
     </v-row>
 
@@ -70,6 +75,7 @@ interface MemberType {
 interface BandType {
   name: string
   memberNum: number
+  notes: string
   memberList: MemberType[]
 }
 
