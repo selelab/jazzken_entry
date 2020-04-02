@@ -38,9 +38,21 @@ import {
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
+interface MemberType {
+  id: number
+  name: string
+  instrument: string
+}
+
+interface BandType {
+  name: string
+  memberNum: number
+  memberList: MemberType[]
+}
+
 export default defineComponent({
   setup() {
-    const bands: any = ref(null)
+    const bands = ref<null | BandType[]>(null)
 
     const listWidth = computed(() => {
       const width: number = window.screen.width
@@ -55,7 +67,7 @@ export default defineComponent({
       const db = firebase.firestore()
       const bandCol = db.collection('bands')
       const res = await bandCol.get()
-      bands.value = res.docs.map(doc => doc.data())
+      bands.value = res.docs.map(doc => doc.data() as BandType)
     })
 
     return {
