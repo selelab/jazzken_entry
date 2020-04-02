@@ -65,7 +65,7 @@ export default defineComponent({
     const listWidth = computed(() => {
       const width: number = window.screen.width
 
-      if (width < 600) {
+      if (width < 1264) {
         return '70%'
       }
       return '30%'
