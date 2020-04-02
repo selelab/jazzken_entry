@@ -57,19 +57,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from '@vue/composition-api'
+import { defineComponent, SetupContext, ref } from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
+interface MemberType {
+  id: number
+  name: string
+  instrument: string
+}
+
+interface BandType {
+  name: string
+  memberNum: number
+  memberList: MemberType[]
+}
+
 export default defineComponent({
   setup(_, context: SetupContext) {
-    const band: any = context.root.$route.params.band
+    const band = ref<BandType>(context.root.$route.params.band)
 
     const submit = () => {
       const db = firebase.firestore()
       const bandCol = db.collection('bands')
-      bandCol.add(band)
-      // console.log(band)
+      bandCol.add(band.value)
+
       context.root.$router.push({ name: 'EntryComplete' })
     }
 
