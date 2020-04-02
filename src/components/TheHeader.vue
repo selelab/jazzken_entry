@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="primary" dark hide-on-scroll>
     <v-row justify="start">
       <v-card-text>
         ジャズ研バンドエントリーシステム
