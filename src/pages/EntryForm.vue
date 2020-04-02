@@ -65,30 +65,38 @@ import {
   ref,
   computed,
   watch,
+  SetupContext,
 } from '@vue/composition-api'
 
-type memberType = {
+interface MemberType {
   id: number
   name: string
   instrument: string
 }
 
-type bandType = {
+interface BandType {
   name: string
   memberNum: number
-  memberList: memberType[]
+  memberList: MemberType[]
 }
 
-const member: memberType = {
+const member: MemberType = {
   id: 0,
   name: '',
   instrument: '',
 }
 
+function useTextField() {
+  const form = ref([])
+  const content = ref('')
+
+  return { form, content }
+}
+
 const membersLimit = 20
 
 export default defineComponent({
-  setup(_, context: any) {
+  setup(_, context: SetupContext) {
     const state = reactive({
       valid: false,
       bandNameRules: [(v: string) => !!v || 'バンド名を入力してください'],
@@ -96,13 +104,13 @@ export default defineComponent({
       instrumentRules: [(v: string) => !!v || '楽器を選択してください'],
     })
 
-    const band = reactive<bandType>({
+    const band = reactive<BandType>({
       name: '',
       memberNum: 1,
       memberList: [Object.assign({}, member)],
     })
 
-    const instrumentList = ref<string[]>([
+    const instrumentList: string[] = [
       'Vo',
       'T.Sax',
       'A.Sax',
@@ -116,7 +124,7 @@ export default defineComponent({
       'Dr',
       'Perc',
       'その他',
-    ])
+    ]
 
     const membersSelection = computed<number[]>(() =>
       Array.from({ length: membersLimit }, (v, k) => k + 1)
@@ -124,8 +132,8 @@ export default defineComponent({
 
     const pushEmptyMember = watch(
       () => band.memberNum,
-      (memberNum, prevNum) => {
-        const memberDiff: number = memberNum - prevNum
+      (memberNum: number, prevNum: number) => {
+        const memberDiff = memberNum - prevNum
 
         if (memberDiff > 0) {
           for (let i = 0; i < memberDiff; i++) {
@@ -140,16 +148,19 @@ export default defineComponent({
       }
     )
 
+    const { form, content } = useTextField()
     const submit = () => {
       if (state.valid) {
-        const params: any = {}
-        params['band'] = band
+        // eslint-disable-next-line
+        const param: any = {}
+        param['band'] = band
         context.root.$router.push({
           name: 'EntryConfirm',
-          params,
+          params: param,
         })
       } else {
-        context.refs.form.validate()
+        // @ts-ignore
+        form.value.validate()
       }
     }
 
@@ -160,6 +171,8 @@ export default defineComponent({
       membersSelection,
       pushEmptyMember,
       submit,
+      form,
+      content,
     }
   },
 })
