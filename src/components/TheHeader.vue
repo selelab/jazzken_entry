@@ -1,19 +1,19 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <v-card-actions style="padding: 0">
-      <v-btn text to="/">ジャズ研バンドエントリーシステム</v-btn>
-    </v-card-actions>
+    <v-row justify="start">
+      <v-card-text>
+        ジャズ研バンドエントリーシステム
+      </v-card-text>
+    </v-row>
 
-    <v-spacer></v-spacer>
-
-    <v-btn v-if="path !== '/list'" to="./list" text>
-      <span>バンド一覧</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
-    <v-btn v-else to="/" text>
-      <span>エントリー</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
+    <v-row class="d-lg-flex d-none mr-2" justify="end">
+      <v-btn v-if="path !== '/list'" to="./list" outlined>
+        <span>バンド一覧</span>
+      </v-btn>
+      <v-btn v-else to="/" outlined>
+        <span>エントリー</span>
+      </v-btn>
+    </v-row>
   </v-app-bar>
 </template>
 
