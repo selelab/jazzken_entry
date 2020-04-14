@@ -66,7 +66,7 @@ export default defineComponent({
       const width: number = window.screen.width
 
       if (width < 1264) {
-        return '70%'
+        return '85%'
       }
       return '30%'
     })
