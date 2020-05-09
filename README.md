@@ -1,29 +1,20 @@
-# new_entry
+# 上智ジャズ研バンドエントリーシステム
 
-## Project setup
-```
-yarn install
-```
+## 技術
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+- Vue.js
+- Typescript
+- Vuetify
+- firebase
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## セットアップ
 
-### Run your unit tests
-```
-yarn test:unit
-```
+`yarn` or `npm install`
 
-### Lints and fixes files
-```
-yarn lint
-```
+## ホットリロード
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+`yarn serve` or `npm run serve`
+
+## コンパイル
+
+`yarn build` or `npm run build`
