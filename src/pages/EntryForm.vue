@@ -29,11 +29,10 @@
             v-for="member in band.memberList"
             :key="member.id"
           >
-            <v-autocomplete
+            <v-text-field
               class="mr-2 ml-2"
               v-model="member.name"
               label="メンバーの名前"
-              :items="userList"
               :rules="state.memberNameRules"
               required
               style="width: 25%"
@@ -68,16 +67,9 @@ import {
   computed,
   watch,
   SetupContext,
-  watchEffect,
 } from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
-
-interface UserType {
-  name: string
-  kana: string
-  alphabet: string
-}
 
 interface MemberType {
   id: number
@@ -177,15 +169,6 @@ export default defineComponent({
       }
     }
 
-    const userList = ref<null | UserType[]>(null)
-    watchEffect(async () => {
-      const db = firebase.firestore()
-      const userCol = db.collection('users')
-      const res = await userCol.get()
-      console.log(res.docs[0].data())
-      userList.value = res.docs.map(doc => doc.data() as UserType)
-    })
-
     return {
       state,
       band,
@@ -195,7 +178,6 @@ export default defineComponent({
       submit,
       form,
       content,
-      userList,
     }
   },
 })
