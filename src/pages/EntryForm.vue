@@ -29,14 +29,20 @@
             v-for="member in band.memberList"
             :key="member.id"
           >
-            <v-text-field
+            <v-combobox
               class="mr-2 ml-2"
               v-model="member.name"
               label="メンバーの名前"
+              :items="users"
+              item-text="name"
+              item-value="name"
+              :return-object="false"
               :rules="state.memberNameRules"
+              :filter="filterUser"
               required
               style="width: 25%"
-            />
+            >
+            </v-combobox>
             <v-select
               class="mr-2 ml-2"
               v-model="member.instrument"
@@ -67,6 +73,7 @@ import {
   computed,
   watch,
   SetupContext,
+  onMounted,
 } from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -82,6 +89,11 @@ interface BandType {
   memberNum: number
   notes: string
   memberList: MemberType[]
+}
+
+interface UserType {
+  name: string
+  kana: string
 }
 
 const member: MemberType = {
@@ -114,6 +126,28 @@ export default defineComponent({
       notes: '',
       memberList: [Object.assign({}, member)],
     })
+
+    const users = ref<(UserType | undefined)[]>([])
+    onMounted(async () => {
+      const db = firebase.firestore()
+      const userRef = await db.collection('users').get()
+      console.log(userRef.docs)
+      users.value = userRef.docs.map(doc =>
+        doc.exists ? (doc.data() as UserType) : undefined
+      )
+    })
+
+    const filterUser = (item, queryText) => {
+      const hasValue = val => (val !== null ? val : '')
+      const query = hasValue(queryText)
+      const name = hasValue(item.name)
+      const kana = hasValue(item.kana)
+
+      return (
+        name.indexOf(query.toString()) > -1 ||
+        kana.indexOf(query.toString()) > -1
+      )
+    }
 
     const instrumentList: string[] = [
       'Vo',
@@ -178,6 +212,8 @@ export default defineComponent({
       submit,
       form,
       content,
+      users,
+      filterUser,
     }
   },
 })
