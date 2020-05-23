@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import EntryForm from '@/pages/EntryForm.vue'
-import EntryConfirm from '@/pages/EntryConfirm.vue'
-import EntryComplete from '@/pages/EntryComplete.vue'
-
-import BandList from '@/pages/BandList.vue'
 
 Vue.use(VueRouter)
 
@@ -18,22 +13,22 @@ const routes = [
   {
     path: '/confirm',
     name: 'EntryConfirm',
-    component: EntryConfirm,
+    component: () => import('@/pages/EntryConfirm.vue'),
   },
   {
     path: '/complete',
     name: 'EntryComplete',
-    component: EntryComplete,
+    component: () => import('@/pages/EntryComplete.vue'),
   },
   {
     path: '/list',
     name: 'BandList',
-    component: BandList,
+    component: () => import('@/pages/BandList.vue'),
   },
 ]
 
 const router = new VueRouter({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })
