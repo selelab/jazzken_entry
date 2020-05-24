@@ -74,9 +74,11 @@ import {
   watch,
   SetupContext,
   onMounted,
+  onUnmounted,
 } from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import { instrumentList } from '@/instrumentList'
 
 interface MemberType {
   id: number
@@ -102,14 +104,12 @@ const member: MemberType = {
   instrument: '',
 }
 
-function useTextField() {
-  const form = ref([])
-  const content = ref('')
-
-  return { form, content }
-}
-
 const membersLimit = 20
+
+const handler = event => {
+  event.returnValue = "Data you've inputted won't be synced"
+}
+window.addEventListener('beforeunload', handler)
 
 export default defineComponent({
   setup(_, context: SetupContext) {
@@ -131,7 +131,6 @@ export default defineComponent({
     onMounted(async () => {
       const db = firebase.firestore()
       const userRef = await db.collection('users').get()
-      console.log(userRef.docs)
       users.value = userRef.docs.map(doc =>
         doc.exists ? (doc.data() as UserType) : undefined
       )
@@ -148,22 +147,6 @@ export default defineComponent({
         kana.indexOf(query.toString()) > -1
       )
     }
-
-    const instrumentList: string[] = [
-      'Vo',
-      'T.Sax',
-      'A.Sax',
-      'Fl',
-      'Cl',
-      'Tp',
-      'Tb',
-      'Gt',
-      'Pf',
-      'Ba',
-      'Dr',
-      'Perc',
-      'その他',
-    ]
 
     const membersSelection = computed<number[]>(() =>
       Array.from({ length: membersLimit }, (v, k) => k + 1)
@@ -187,7 +170,7 @@ export default defineComponent({
       }
     )
 
-    const { form, content } = useTextField()
+    const form = ref('')
     const submit = () => {
       if (state.valid) {
         // eslint-disable-next-line
@@ -203,6 +186,10 @@ export default defineComponent({
       }
     }
 
+    onUnmounted(() => {
+      window.removeEventListener('beforeunload', handler)
+    })
+
     return {
       state,
       band,
@@ -211,7 +198,6 @@ export default defineComponent({
       pushEmptyMember,
       submit,
       form,
-      content,
       users,
       filterUser,
     }
