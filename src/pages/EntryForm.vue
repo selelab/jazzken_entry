@@ -106,7 +106,7 @@ const member: MemberType = {
 
 const membersLimit = 20
 
-const handler = event => {
+const handler = (event: any) => {
   event.returnValue = "Data you've inputted won't be synced"
 }
 window.addEventListener('beforeunload', handler)
@@ -136,8 +136,8 @@ export default defineComponent({
       )
     })
 
-    const filterUser = (item, queryText) => {
-      const hasValue = val => (val !== null ? val : '')
+    const filterUser = (item: UserType, queryText: string) => {
+      const hasValue = (val: string) => (val !== null ? val : '')
       const query = hasValue(queryText)
       const name = hasValue(item.name)
       const kana = hasValue(item.kana)
