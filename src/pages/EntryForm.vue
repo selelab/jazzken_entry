@@ -121,18 +121,18 @@ export default defineComponent({
       instrumentRules: [(v: string) => !!v || '楽器を選択してください'],
     })
 
-    const band = ref<BandType>({
-      name: '',
-      memberNum: 1,
-      notes: '',
-      memberList: [Object.assign({}, member)],
-    })
-    onMounted(() => {
-      if (typeof context.root.$route.params.band !== 'undefined') {
-        // @ts-ignore
-        band.value = context.root.$route.params.band as BandType
+    const band = ref<BandType | undefined>()
+    if (typeof context.root.$route.params.band === 'undefined') {
+      band.value = {
+        name: '',
+        memberNum: 1,
+        notes: '',
+        memberList: [Object.assign({}, member)],
       }
-    })
+    } else {
+      // @ts-ignore
+      band.value = context.root.$route.params.band as BandType
+    }
 
     const users = ref<(UserType | undefined)[]>([])
     onMounted(async () => {
@@ -160,6 +160,7 @@ export default defineComponent({
     )
 
     const pushEmptyMember = watch(
+      // @ts-ignore
       () => band.value.memberNum,
       (memberNum: number, prevNum: number) => {
         const memberDiff = memberNum - prevNum
@@ -167,10 +168,12 @@ export default defineComponent({
         if (memberDiff > 0) {
           for (let i = 0; i < memberDiff; i++) {
             member.id++
+            // @ts-ignore
             band.value.memberList.push(Object.assign({}, member))
           }
         } else {
           for (let i = 0; i < -memberDiff; i++) {
+            // @ts-ignore
             band.value.memberList.pop()
           }
         }
