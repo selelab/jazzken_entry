@@ -106,6 +106,7 @@ const member: MemberType = {
 
 const membersLimit = 20
 
+// eslint-disable-next-line
 const handler = (event: any) => {
   event.returnValue = "Data you've inputted won't be synced"
 }
@@ -120,11 +121,17 @@ export default defineComponent({
       instrumentRules: [(v: string) => !!v || '楽器を選択してください'],
     })
 
-    const band = reactive<BandType>({
+    const band = ref<BandType>({
       name: '',
       memberNum: 1,
       notes: '',
       memberList: [Object.assign({}, member)],
+    })
+    onMounted(() => {
+      if (typeof context.root.$route.params.band !== 'undefined') {
+        // @ts-ignore
+        band.value = context.root.$route.params.band as BandType
+      }
     })
 
     const users = ref<(UserType | undefined)[]>([])
@@ -153,18 +160,18 @@ export default defineComponent({
     )
 
     const pushEmptyMember = watch(
-      () => band.memberNum,
+      () => band.value.memberNum,
       (memberNum: number, prevNum: number) => {
         const memberDiff = memberNum - prevNum
 
         if (memberDiff > 0) {
           for (let i = 0; i < memberDiff; i++) {
             member.id++
-            band.memberList.push(Object.assign({}, member))
+            band.value.memberList.push(Object.assign({}, member))
           }
         } else {
           for (let i = 0; i < -memberDiff; i++) {
-            band.memberList.pop()
+            band.value.memberList.pop()
           }
         }
       }
@@ -174,11 +181,11 @@ export default defineComponent({
     const submit = () => {
       if (state.valid) {
         // eslint-disable-next-line
-        const param: any = {}
-        param['band'] = band
+        const params: any = {}
+        params['band'] = band.value
         context.root.$router.push({
           name: 'EntryConfirm',
-          params: param,
+          params,
         })
       } else {
         // @ts-ignore
