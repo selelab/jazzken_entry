@@ -53,7 +53,7 @@
         <v-btn class="my-10" color="primary" @click="submit">エントリー</v-btn>
       </v-col>
       <v-col class="ms-10" lg="1">
-        <v-btn to="/" class="my-10" color="cancel" @click="returnToModify"
+        <v-btn class="my-10" color="cancel" @click="returnToModify"
           >修正する</v-btn
         >
       </v-col>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref } from '@vue/composition-api'
+import { defineComponent, SetupContext } from '@vue/composition-api'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
@@ -81,18 +81,22 @@ interface BandType {
 
 export default defineComponent({
   setup(_, context: SetupContext) {
-    const band = ref<BandType>(context.root.$route.params.band)
+    // @ts-ignore
+    const band = context.root.$route.params.band as BandType
 
     const submit = () => {
       const db = firebase.firestore()
       const bandCol = db.collection('bands')
-      bandCol.add(band.value)
+      bandCol.add(band)
 
       context.root.$router.push({ name: 'EntryComplete' })
     }
 
     const returnToModify = () => {
-      context.root.$router.push({ name: 'EntryForm' })
+      // eslint-disable-next-line
+      const params: any = {}
+      params['band'] = band
+      context.root.$router.push({ name: 'EntryForm', params })
     }
 
     return {
